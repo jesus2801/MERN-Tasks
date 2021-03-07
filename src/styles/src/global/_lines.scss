@@ -1,0 +1,29 @@
+.lines {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  &.active {
+    div:nth-child(1) {
+      display: none;
+    }
+
+    div:nth-child(2) {
+      width: 100%;
+    }
+  }
+
+  div:nth-child(1) {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+  }
+
+  div:nth-child(2) {
+    width: 0%;
+    height: 1px;
+    background-color: $secondColor;
+    transition: width 300ms ease;
+  }
+}

@@ -1,0 +1,16 @@
+$mainColor: #30394b;
+$secondColor: #327bff;
+$secondColorHover: #4786fc;
+$blackColor: #1e1f21;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body{
+  background-color: $mainColor;
+  background-color: rgb(249, 249, 250);
+}
