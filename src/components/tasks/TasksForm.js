@@ -1,6 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
+
+import projectsContext from '../../context/projects/Projectcontext';
 
 const TasksForm = () => {
+  const {project} = useContext(projectsContext);
+
+  if (!project) return null;
+
+  const [actualProject] = project;
+
   return (
     <div className="form-ctn">
       <form>

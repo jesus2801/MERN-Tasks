@@ -1,4 +1,10 @@
-import {PROJECT_FORM, GET_PROJECTS, ADD_PROJECT} from '../../types';
+import {
+  PROJECT_FORM,
+  GET_PROJECTS,
+  ADD_PROJECT,
+  ACTUAL_PROJECT,
+  DELETE_PROJECT,
+} from '../../types';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -17,6 +23,17 @@ const reducer = (state, action) => {
         ...state,
         projects: [...state.projects, action.payload],
         projectForm: false,
+      };
+    case ACTUAL_PROJECT:
+      return {
+        ...state,
+        project: state.projects.filter(project => project.id === action.payload),
+      };
+    case DELETE_PROJECT:
+      return {
+        ...state,
+        projects: state.projects.filter(project => project.id !== action.payload),
+        project: null,
       };
     default:
       return state;

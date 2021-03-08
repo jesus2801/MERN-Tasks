@@ -1,9 +1,10 @@
 import React, {Fragment, useContext, useState} from 'react';
 import projectContext from '../../context/projects/Projectcontext';
+import helpers from '../../functions';
 
 const NewProject = () => {
   //get form state
-  const {projectForm, showForm, addProject, showError} = useContext(projectContext);
+  const {projectForm, showForm, addProject} = useContext(projectContext);
 
   //state for project
   const [project, setProject] = useState({
@@ -23,7 +24,7 @@ const NewProject = () => {
 
     //validate name
     if (name.trim() === '') {
-      showError("You can't add a project without a name");
+      helpers.showError("You can't add a project without a name");
       return;
     }
 

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Task from '../tasks/Task';
+
+import projectsContext from '../../context/projects/Projectcontext';
 
 const TasksList = () => {
   const projectTasks = [
@@ -10,9 +12,22 @@ const TasksList = () => {
     {name: 'Elegir Hosting', state: false},
   ];
 
+  const {project, deleteProject} = useContext(projectsContext);
+
+  if (!project)
+    return (
+      <div className="tasks-ctn">
+        <h2 style={{marginTop: '40px'}}>SELECT A PROJECT</h2>
+      </div>
+    );
+
+  const [actualProject] = project;
+
+  const onDeleteProject = ()=> deleteProject(actualProject.id);
+
   return (
     <div className="tasks-ctn">
-      <h2>Project: Diseño proyecto</h2>
+      <h2>PROJECT: {actualProject.name}</h2>
       <ul>
         {projectTasks.length === 0 ? (
           <p>No hay tareas</p>
@@ -20,7 +35,7 @@ const TasksList = () => {
           projectTasks.map((task, index) => <Task task={task} key={index} />)
         )}
       </ul>
-      <button className="delete-project">Delete project &times;</button>
+      <button className="delete-project" onClick={onDeleteProject}>Delete project &times;</button>
     </div>
   );
 };

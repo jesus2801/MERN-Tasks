@@ -1,11 +1,16 @@
 import React, {useReducer} from 'react';
-import Swal from 'sweetalert2';
 import {v4} from 'uuid';
 
 import projectContext from './Projectcontext';
-import projectReducer from './projectReducer';
+import projectReducer from './ProjectReducer';
 
-import {PROJECT_FORM, GET_PROJECTS, ADD_PROJECT} from '../../types';
+import {
+  PROJECT_FORM,
+  GET_PROJECTS,
+  ADD_PROJECT,
+  ACTUAL_PROJECT,
+  DELETE_PROJECT,
+} from '../../types';
 
 const ProjectState = props => {
   const projects = [
@@ -17,6 +22,7 @@ const ProjectState = props => {
   const initialState = {
     projects: [],
     projectForm: false,
+    project: null,
   };
 
   //dispatch for actions
@@ -40,15 +46,25 @@ const ProjectState = props => {
   const addProject = project => {
     project.id = v4();
     //insert project in state
-    // console.log(project);
     dispatch({
       type: ADD_PROJECT,
       payload: project,
     });
   };
 
-  const showError = error => {
-    Swal.fire('Error!', error, 'error');
+  // when user click some project
+  const actualProject = projectID => {
+    dispatch({
+      type: ACTUAL_PROJECT,
+      payload: projectID,
+    });
+  };
+
+  const deleteProject = projectID => {
+    dispatch({
+      type: DELETE_PROJECT,
+      payload: projectID,
+    });
   };
 
   return (
@@ -56,10 +72,12 @@ const ProjectState = props => {
       value={{
         projects: state.projects,
         projectForm: state.projectForm,
+        project: state.project,
         showForm,
         getProjects,
         addProject,
-        showError,
+        actualProject,
+        deleteProject,
       }}
     >
       {props.children}
