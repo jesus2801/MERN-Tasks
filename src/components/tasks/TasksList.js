@@ -1,16 +1,12 @@
 import React, {useContext} from 'react';
+
 import Task from '../tasks/Task';
 
 import projectsContext from '../../context/projects/Projectcontext';
+import taskContext from '../../context/tasks/TaskContext';
 
 const TasksList = () => {
-  const projectTasks = [
-    {name: 'Elegir colores', state: true},
-    {name: 'Elegir plataforma', state: false},
-    {name: 'Seleccionar empleados', state: true},
-    {name: 'Elegir colores', state: true},
-    {name: 'Elegir Hosting', state: false},
-  ];
+  const {projectTasks} = useContext(taskContext);
 
   const {project, deleteProject} = useContext(projectsContext);
 
@@ -23,7 +19,7 @@ const TasksList = () => {
 
   const [actualProject] = project;
 
-  const onDeleteProject = ()=> deleteProject(actualProject.id);
+  const onDeleteProject = () => deleteProject(actualProject.id);
 
   return (
     <div className="tasks-ctn">
@@ -32,10 +28,12 @@ const TasksList = () => {
         {projectTasks.length === 0 ? (
           <p>No hay tareas</p>
         ) : (
-          projectTasks.map((task, index) => <Task task={task} key={index} />)
+          projectTasks.map(task => <Task task={task} key={task.id} />)
         )}
       </ul>
-      <button className="delete-project" onClick={onDeleteProject}>Delete project &times;</button>
+      <button className="delete-project" onClick={onDeleteProject}>
+        Delete project &times;
+      </button>
     </div>
   );
 };

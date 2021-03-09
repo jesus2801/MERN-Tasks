@@ -1,11 +1,19 @@
 import React, {useContext} from 'react';
 import projectsContext from '../../context/projects/Projectcontext';
+import tasksContext from '../../context/tasks/TaskContext';
 
 const Project = ({project}) => {
   const {actualProject} = useContext(projectsContext);
 
+  const {getProjectTasks} = useContext(tasksContext);
+
+  const addActualProject = id => {
+    actualProject(id);
+    getProjectTasks(id);
+  };
+
   return (
-    <p onClick={() => actualProject(project.id)}>
+    <p onClick={() => addActualProject(project.id)}>
       <span></span>
       {project.name}
     </p>
