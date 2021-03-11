@@ -1,18 +1,29 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import arrow from '../../images/icons/arrow-right.png';
 import curve from '../../images/objects/curve.svg';
 import phone from '../../images/objects/app-phone.svg';
 
+import helpers from '../../functions';
+import AuthContext from '../../context/auth/authContext';
+
 import '../../styles/dist/login.min.css';
 
-function Login() {
+function Login(props) {
+  const {loginUser, authenticate} = useContext(AuthContext);
+
   //state for login
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    if (authenticate) {
+      props.history.push('/projects');
+    }
+  }, [authenticate]);
 
   //extract from user
   const {email, password} = user;
@@ -29,8 +40,16 @@ function Login() {
     e.preventDefault();
 
     //validate fields
+    if (email.trim() === '' || password.trim() === '') {
+      helpers.showError('Please fill in all the fields correctly');
+      return;
+    }
 
     //go to action
+    loginUser({
+      mail: email,
+      password,
+    });
   };
 
   return (

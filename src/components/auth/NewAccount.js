@@ -1,13 +1,24 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import arrow from '../../images/icons/arrow-right.png';
 import curve from '../../images/objects/curve.svg';
 import phone from '../../images/objects/app-phone.svg';
 
+import helpers from '../../functions';
+import AuthContext from '../../context/auth/authContext';
+
 import '../../styles/dist/login.min.css';
 
-function NewAccount() {
+function NewAccount(props) {
+  const {registerUser, authenticate} = useContext(AuthContext);
+
+  useEffect(() => {
+    if (authenticate) {
+      props.history.push('/projects');
+    }
+  }, [authenticate]);
+
   //state for login
   const [user, setUser] = useState({
     name: '',
@@ -31,12 +42,34 @@ function NewAccount() {
     e.preventDefault();
 
     //validate fields
-
-    //minimum password of 6 characters
+    if (
+      name.trim() === '' ||
+      email.trim() === '' ||
+      password.trim() === '' ||
+      password2.trim() === ''
+    ) {
+      helpers.showError('Please fill in all the fields correctly');
+      return;
+    }
 
     //both passwords the same
+    if (password !== password2) {
+      helpers.showError('Please both passwords have to be the same');
+      return;
+    }
+
+    //minimum password of 6 characters
+    if (password.length < 6) {
+      helpers.showError('Please, the password must be at least 6 characters long.');
+      return;
+    }
 
     //go to action
+    registerUser({
+      name,
+      mail: email,
+      password,
+    });
   };
 
   return (
