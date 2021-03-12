@@ -84,6 +84,17 @@ const AuthState = props => {
       returnUser();
     } catch (e) {
       localStorage.removeItem('token');
+      console.log(e.response);
+      if (e.response.status === 429) {
+        helpers.showError(
+          'You have exceeded the limit of attempts for this form, try again later'
+        );
+        return;
+      }
+      if (e.toString().toLowerCase().indexOf('network error') !== -1) {
+        helpers.showError('Sorry a network error an ocurred');
+        return;
+      }
       if (e.response.data.errors) {
         helpers.showError(e.response.data.errors[0].msg);
         return;

@@ -75,6 +75,7 @@ const TasksForm = () => {
         <input
           type="text"
           placeholder="Enter your task"
+          maxLength="220"
           name="name"
           value={name}
           onChange={handleChange}
