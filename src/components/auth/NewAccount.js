@@ -17,6 +17,7 @@ function NewAccount(props) {
     if (authenticate) {
       props.history.push('/projects');
     }
+    // eslint-disable-next-line
   }, [authenticate]);
 
   //state for login

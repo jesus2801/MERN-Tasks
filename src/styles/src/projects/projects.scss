@@ -4,30 +4,22 @@
 
 $circleWidth: 8px;
 
-// .project-node-enter,
-// .tasks-node-enter {
-//   opacity: 0;
-// }
-// .project-node-enter-active,
-// .tasks-node-enter-active {
-//   opacity: 1;
-//   transition: opacity 200ms;
-// }
-
-// .project-node-exit,
-// .tasks-node-exit {
-//   opacity: 1;
-// }
-// .project-node-exit-active,
-// .tasks-node-exit-active {
-//   opacity: 0;
-//   transition: opacity 200ms;
-// }
-
 .main-ctn {
   width: 100%;
+  .menu {
+    display: none;
+    position: fixed;
+    top: 5px;
+    left: 10px;
+    width: 25px;
+    z-index: 2;
+    cursor: pointer;
+  }
 
   aside {
+    &.ocult {
+      transform: translateX(-280px);
+    }
     position: fixed;
     top: 0;
     width: 280px;
@@ -43,7 +35,7 @@ $circleWidth: 8px;
     -webkit-box-shadow: 1px 0px 21px 0px rgba(212, 212, 212, 1);
     -moz-box-shadow: 1px 0px 21px 0px rgba(212, 212, 212, 1);
     box-shadow: 1px 0px 21px 0px rgba(212, 212, 212, 1);
-
+    transition: transform 1s ease;
     h1,
     h2 {
       color: $mainColor;
@@ -153,8 +145,8 @@ $circleWidth: 8px;
       align-items: center;
       justify-content: center;
       form {
-        width: 90%;
-        max-width: 700px;
+        width: 95%;
+        max-width: 730px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -192,6 +184,7 @@ $circleWidth: 8px;
       justify-content: center;
       h2 {
         color: $mainColor;
+        text-align: center;
       }
       ul {
         width: 100%;
@@ -216,6 +209,11 @@ $circleWidth: 8px;
           box-shadow: 1px 2px 4px 0px rgba(222, 222, 222, 1);
 
           .buttons {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
             .btn-task {
               border: none;
               border-radius: 2px;
@@ -255,6 +253,69 @@ $circleWidth: 8px;
         padding: 7px 14px;
         cursor: pointer;
         font-size: 15px;
+      }
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .main {
+      width: 100%;
+      margin-left: 0;
+      .tasks-ctn {
+        ul {
+          li {
+            width: 93%;
+          }
+        }
+      }
+    }
+    .menu {
+      display: block;
+    }
+  }
+
+  @media (max-width: 850px) {
+    .main {
+      width: 100%;
+      margin-left: 0;
+      .tasks-ctn {
+        width: 95%;
+        ul {
+          li {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 620px) {
+    .main {
+      width: 100%;
+      margin-left: 0;
+      .tasks-ctn {
+        width: 95%;
+        ul {
+          li {
+            .buttons {
+              flex-direction: column;
+              button {
+                margin: 6px 0 !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 450px) {
+    .main {
+      header {
+        p,
+        a {
+          font-size: 15px;
+        }
       }
     }
   }

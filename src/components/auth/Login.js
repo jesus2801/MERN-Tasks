@@ -23,6 +23,7 @@ function Login(props) {
     if (authenticate) {
       props.history.push('/projects');
     }
+    // eslint-disable-next-line
   }, [authenticate]);
 
   //extract from user

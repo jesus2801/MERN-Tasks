@@ -42,10 +42,13 @@ const AuthState = props => {
 
   const returnUser = async () => {
     const token = localStorage.getItem('token');
-    if (token) {
-      helpers.tokenAuth(token);
+    if (!token) {
+      dispatch({
+        type: SIGN_OFF,
+      });
+      return;
     }
-
+    helpers.tokenAuth(token);
     try {
       const response = await axiosClient.get('/users');
       dispatch({
@@ -53,8 +56,16 @@ const AuthState = props => {
         payload: response.data.user,
       });
     } catch (e) {
-      localStorage.removeItem('token');
-      helpers.showError(e.response.data.msg);
+      if (e.response.status) {
+        if (e.response.status === 401) {
+          dispatch({
+            type: SIGN_OFF,
+          });
+          return;
+        }
+        localStorage.removeItem('token');
+        helpers.showError(e.response.data.msg);
+      }
     }
   };
 

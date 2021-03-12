@@ -10,8 +10,8 @@ const Task = ({task}) => {
   const [actualProject] = project;
 
   const onDelete = id => {
-    deleteTask(id);
-    getProjectTasks(actualProject.id);
+    deleteTask(id, actualProject._id);
+    getProjectTasks(actualProject._id);
   };
 
   const handleState = task => {
@@ -39,7 +39,7 @@ const Task = ({task}) => {
         <button className="btn-task" onClick={() => selectTask(task)}>
           Edit
         </button>
-        <button className="btn-task" onClick={() => onDelete(task.id)}>
+        <button className="btn-task" onClick={() => onDelete(task._id)}>
           Delete
         </button>
       </div>

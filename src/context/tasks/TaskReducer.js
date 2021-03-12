@@ -1,27 +1,33 @@
-import {PROJECT_TASKS, ADD_TASK, DELETE_TASK, UPDATE_TASK, ACTUAL_TASK} from '../../types';
+import {
+  PROJECT_TASKS,
+  ADD_TASK,
+  DELETE_TASK,
+  UPDATE_TASK,
+  ACTUAL_TASK,
+} from '../../types';
 
 const reducer = (state, action) => {
   switch (action.type) {
     case PROJECT_TASKS:
       return {
         ...state,
-        projectTasks: state.tasks.filter(task => task.projectID === action.payload),
+        projectTasks: action.payload,
       };
     case ADD_TASK:
       return {
         ...state,
-        tasks: [action.payload, ...state.tasks],
+        projectTasks: [action.payload, ...state.projectTasks],
       };
     case DELETE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter(task => task.id !== action.payload),
+        projectTasks: state.projectTasks.filter(task => task._id !== action.payload),
       };
     case UPDATE_TASK:
       return {
         ...state,
-        tasks: state.projectTasks.map(task =>
-          task.id === action.payload.id ? action.payload : task
+        projectTasks: state.projectTasks.map(task =>
+          task._id === action.payload._id ? action.payload : task
         ),
       };
     case ACTUAL_TASK:

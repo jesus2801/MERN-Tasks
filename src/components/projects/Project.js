@@ -13,7 +13,7 @@ const Project = ({project}) => {
   };
 
   return (
-    <p onClick={() => addActualProject(project.id)}>
+    <p onClick={() => addActualProject(project._id)}>
       <span></span>
       {project.name}
     </p>

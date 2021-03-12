@@ -18,6 +18,7 @@ const reducer = (state, action) => {
         loading: false,
       };
     case SIGN_OFF:
+      localStorage.removeItem('token');
       return {
         ...state,
         token: null,

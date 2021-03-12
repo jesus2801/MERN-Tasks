@@ -47,12 +47,10 @@ const TasksForm = () => {
     //if submit is for edit or for add
     if (taskSelected === null) {
       //add task to state
-      task.projectID = actualProject.id;
-      task.state = false;
-      console.log(task);
+      task.project = actualProject._id;
       addTask(task);
 
-      getProjectTasks(actualProject.id);
+      getProjectTasks(actualProject._id);
 
       //reset form
       setTask({

@@ -1,17 +1,18 @@
 import React, {useReducer} from 'react';
-import {PROJECT_TASKS, ADD_TASK, DELETE_TASK, UPDATE_TASK, ACTUAL_TASK} from '../../types';
+import {
+  PROJECT_TASKS,
+  ADD_TASK,
+  DELETE_TASK,
+  UPDATE_TASK,
+  ACTUAL_TASK,
+} from '../../types';
 import TaskContext from './TaskContext';
 import TaskReducer from './TaskReducer';
+import axiosClient from '../../config/axios';
+import helpers from '../../functions';
 
 const TaskState = props => {
   const initialState = {
-    tasks: [
-      {id: 1, name: 'Elegir colores', state: true, projectID: 1},
-      {id: 2, name: 'Elegir plataforma', state: false, projectID: 1},
-      {id: 3, name: 'Seleccionar empleados', state: true, projectID: 1},
-      {id: 4, name: 'Elegir colores', state: true, projectID: 2},
-      {id: 5, name: 'Elegir Hosting', state: false, projectID: 2},
-    ],
     projectTasks: [],
     taskSelected: null,
   };
@@ -20,32 +21,60 @@ const TaskState = props => {
   const [state, dispatch] = useReducer(TaskReducer, initialState);
 
   //funcitons
-  const getProjectTasks = projectID => {
-    dispatch({
-      type: PROJECT_TASKS,
-      payload: projectID,
-    });
+  const getProjectTasks = async projectID => {
+    try {
+      const response = await axiosClient.get('/api/tasks', {
+        params: {
+          project: projectID,
+        },
+      });
+      dispatch({
+        type: PROJECT_TASKS,
+        payload: response.data.tasks,
+      });
+    } catch (e) {
+      helpers.showError('Sorry an error occurred');
+    }
   };
 
-  const addTask = task => {
-    dispatch({
-      type: ADD_TASK,
-      payload: task,
-    });
+  const addTask = async task => {
+    try {
+      const response = await axiosClient.post('/api/tasks', task);
+      dispatch({
+        type: ADD_TASK,
+        payload: response.data.task,
+      });
+    } catch (e) {
+      helpers.showError('Sorry an error occurred');
+    }
   };
 
-  const deleteTask = projectID => {
-    dispatch({
-      type: DELETE_TASK,
-      payload: projectID,
-    });
+  const deleteTask = async (taskID, project) => {
+    try {
+      await axiosClient.delete(`/api/tasks/${taskID}`, {
+        params: {project},
+      });
+
+      dispatch({
+        type: DELETE_TASK,
+        payload: taskID,
+      });
+    } catch (e) {
+      helpers.showError('Sorry an error occurred');
+    }
   };
 
-  const updateTask = task => {
-    dispatch({
-      type: UPDATE_TASK,
-      payload: task,
-    });
+  const updateTask = async task => {
+    try {
+      const response = await axiosClient.put(`/api/tasks/${task._id}`, task);
+
+      dispatch({
+        type: UPDATE_TASK,
+        payload: response.data.task,
+      });
+    } catch (e) {
+      helpers.showError('Sorry an error occurred');
+    }
   };
 
   const saveActualTask = task => {
@@ -58,7 +87,6 @@ const TaskState = props => {
   return (
     <TaskContext.Provider
       value={{
-        tasks: state.tasks,
         projectTasks: state.projectTasks,
         taskSelected: state.taskSelected,
         getProjectTasks,
